@@ -34,6 +34,7 @@ def StripeWebhookView(req: func.HttpRequest) -> func.HttpResponse:
     
     # Handle the Checkout event:
     print("ITS THE EVENT: ", event)
+    logging.info("I AM HERE NOW!")
     
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
@@ -54,7 +55,7 @@ def StripeWebhookView(req: func.HttpRequest) -> func.HttpResponse:
             product.prod_quantity -= item.quantity
             product.save()
             
-        self.create_order(user_id, cart_id, total_amount )
+        create_order(user_id, cart_id, total_amount )
         
         return HttpResponse("PAYMENT SUCCESSFUL", status=200)
     
@@ -88,5 +89,6 @@ def create_order(self, user_id, cart_id, total_amount):
 
     )
     
+    logging.info(f"Order created: {order}")
     return order
         
